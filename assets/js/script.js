@@ -133,15 +133,23 @@ $(".list-group").on("click", "span", function(){
   .addClass("form-control")
   .val(date);
 
-  // swap out elements
   $(this).replaceWith(dateInput);
 
-  // automatically focus on new element
+  // enable jquery ui datepicker
+  dateInput.datepicker({
+    midDate: 1,
+    onClose: function() {
+      // when calendar is closed, force a "change" event on the 'dateInput'
+      $(this).trigger("change");
+    }
+  });
+
+  // automatically bring up calendar
   dateInput.trigger("focus");
 });
 
 // value of date was changed
-$(".list-group").on("blur", "input[type='text']", function(){
+$(".list-group").on("change", "input[type='text']", function(){
   // get current text
   var date = $(this)
   .val()
@@ -243,4 +251,8 @@ $("#trash").droppable({
   out: function(event, ui) {
     console.log("out");
   }
+});
+
+$("#modalDueDate").datepicker({
+  midDate: 1
 });
